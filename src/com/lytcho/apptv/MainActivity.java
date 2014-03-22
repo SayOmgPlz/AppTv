@@ -16,7 +16,7 @@ public class MainActivity extends Activity implements SurfaceHolder.Callback, On
  MediaPlayer mediaPlayer;
  SurfaceHolder surfaceHolder;
  SurfaceView playerSurfaceView;
- String videoSrc = "http://62.204.145.218:8000/city64";
+ String videoSrc = "http://valentinaitken.com/YouTube.mp4";
 
  @Override
  protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +42,7 @@ public class MainActivity extends Activity implements SurfaceHolder.Callback, On
     mediaPlayer.setDisplay(surfaceHolder);
    mediaPlayer.setDataSource(videoSrc);
    mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
-   mediaPlayer.prepare();
+   mediaPlayer.prepareAsync();
    mediaPlayer.setOnPreparedListener(this);
   
   } catch (IllegalArgumentException e) {
