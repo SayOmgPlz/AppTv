@@ -21,8 +21,8 @@ public class MainActivity extends Activity {
                       findViewById(R.id.videoView1);
 	
 
-	videoView.setVideoPath(
-			videoSrc);
+	videoView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_FULLSCREEN);
+	videoView.setVideoPath(videoSrc);
 	
 	Button openChannelsButton = (Button)findViewById(R.id.button1);
 	openChannelsButton.setOnClickListener(new OnClickListener() {
