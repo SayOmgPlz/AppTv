@@ -7,3 +7,6 @@ Setup tools
 Developer references
 ==========
 * http://developer.android.com/reference/android/media/MediaPlayer.html
+* Stalker REST API v2 (draft) r83 https://docs.google.com/document/d/1Q9aK62XSGEcvYMzlcJ2cIppZhwy824JuCtCfkiIJQu4/edit
+* http://wiki.infomir.eu/doku.php/en:stalker:rest_api_v1#channel_list_obtaining
+

@@ -34,9 +34,8 @@ public class MainActivity extends Activity {
 		final VideoView videoView = (VideoView) 
                 findViewById(R.id.focusedTv);
 
-
-		videoView.setVideoPath(
-				videoSrc);
+		videoView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_FULLSCREEN);
+		videoView.setVideoPath(videoSrc);
 		
 		MediaController mediaController = new MediaController(this);
 		mediaController.setAnchorView(videoView);
