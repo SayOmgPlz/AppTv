@@ -5,6 +5,8 @@ class Tv {
 	public String name;
 	public String cmd;
 	public String type;
+	public String url;
+	public String codec;
 	
 	public Tv() {}
 	
@@ -12,5 +14,15 @@ class Tv {
 		this.name = name;
 		this.cmd = cmd;
 		this.type = type;
+		String[] parts = this.cmd.split("http");
+		//
+		// when we only have the url without the codec in the cmd
+		if(parts.length == 1) {
+			this.url = "http" + parts[0];
+		} else {
+			this.url = "http" + parts[1];
+			this.codec = parts[0];
+		}
 	}
+	
 }

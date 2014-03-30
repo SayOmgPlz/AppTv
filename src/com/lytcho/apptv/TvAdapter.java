@@ -2,9 +2,11 @@ package com.lytcho.apptv;
 
 import java.util.List;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
@@ -14,12 +16,14 @@ public class TvAdapter extends ArrayAdapter<Tv> {
     Context context; 
     int layoutResourceId;    
     List<Tv> data;
+    MainActivity activity;
     
-    public TvAdapter(Context context, int layoutResourceId, List<Tv> data) {
+    public TvAdapter(Context context, int layoutResourceId, List<Tv> data, MainActivity activity) {
         super(context, layoutResourceId, data);
         this.layoutResourceId = layoutResourceId;
         this.context = context;
         this.data = data;
+        this.activity = activity;
     }
 
     @Override
@@ -32,14 +36,29 @@ public class TvAdapter extends ArrayAdapter<Tv> {
             view = inflater.inflate(R.layout.channel_item, null);
         }
 
-        Tv item = getItem(position);
+        final Tv item = getItem(position);
         if (item!= null) {
             
-            TextView itemView = (TextView) view.findViewById(R.id.TV_articleItem);
+        	TextView itemView = (TextView) view.findViewById(R.id.TV_articleItem);
             if (itemView != null) {                
                 itemView.setText(item.name);
             }
+            
+            itemView.setOnClickListener(new OnClickListener() {
+            	
+            	@Override
+            	public void onClick(View v) {
+            		AlertDialog alertDialog = new  AlertDialog.Builder(activity).create();
+            		alertDialog.setTitle("Reset...");
+            		alertDialog.setMessage("ITEM: " +  item.url + " " + item.name + " " + item.codec);
+ //
+            		alertDialog.show();
+            		activity.setVideoSrc(item.url);
+            		activity.startVideo();
+            	}
+            });
          }
+        
 
         return view;
     }

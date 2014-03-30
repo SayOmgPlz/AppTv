@@ -12,23 +12,27 @@ import android.widget.VideoView;
 
 public class MainActivity extends Activity {
 	private TvAdapter arrayOfChannelsAdapter;
-	String videoSrc = "http://hd3.lsops.net/live/smil:aljazeer_ar_hls/playlist.m3u8";
+	private String videoSrc = "http://hd3.lsops.net/live/smil:aljazeer_ar_hls/playlist.m3u8";
+	private VideoView videoView;
+	
 
-@Override
+	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		
 		setChannelList();
 		
-		startVideoView();
+		initAndStartVideo();
 	}
  
 	private void setChannelList() {
-		arrayOfChannelsAdapter = new TvAdapter(this, R.layout.channel_item, new ArrayList<Tv>());
+		arrayOfChannelsAdapter = new TvAdapter(this, R.layout.channel_item, new ArrayList<Tv>(), this);
 		
-		ListView listOfChannels = (ListView)findViewById(R.id.listOfChannels);
-		listOfChannels.setAdapter(arrayOfChannelsAdapter);
+		ListView channelList = (ListView)findViewById(R.id.listOfChannels);
+		
+		ListView listOfChannels = channelList;
+		listOfChannels.setAdapter(arrayOfChannelsAdapter);		
 		
 		new ListTvsApiCall().execute(this);
 	}
@@ -39,17 +43,23 @@ public class MainActivity extends Activity {
 		arrayOfChannelsAdapter.notifyDataSetChanged();
 	}
 	
-	private void startVideoView() {
-		final VideoView videoView = (VideoView) 
-                findViewById(R.id.focusedTv);
-
+	private void initAndStartVideo() {
+		videoView = (VideoView) this.findViewById(R.id.focusedTv);
 		videoView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_FULLSCREEN);
-		videoView.setVideoPath(videoSrc);
 		
 		MediaController mediaController = new MediaController(this);
 		mediaController.setAnchorView(videoView);
 		videoView.setMediaController(mediaController);
 		
-		videoView.start();		
+		startVideo();		
+	}
+	
+	public void startVideo() {
+		videoView.setVideoPath(videoSrc);
+		videoView.start();
+	}
+	
+	public void setVideoSrc(String url) {
+		videoSrc = url;
 	}
 }
