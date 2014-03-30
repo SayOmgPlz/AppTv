@@ -1,5 +1,7 @@
 package com.lytcho.apptv;
 
+import java.util.List;
+
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,9 +13,9 @@ public class TvAdapter extends ArrayAdapter<Tv> {
 
     Context context; 
     int layoutResourceId;    
-    Tv data[] = null;
+    List<Tv> data;
     
-    public TvAdapter(Context context, int layoutResourceId, Tv[] data) {
+    public TvAdapter(Context context, int layoutResourceId, List<Tv> data) {
         super(context, layoutResourceId, data);
         this.layoutResourceId = layoutResourceId;
         this.context = context;

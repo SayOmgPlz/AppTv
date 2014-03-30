@@ -1,11 +1,11 @@
 package com.lytcho.apptv;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.MediaController;
 import android.widget.VideoView;
@@ -18,24 +18,25 @@ public class MainActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-		// TODO: ASYNC FILL WITH API CALL
+		
 		setChannelList();
 		
 		startVideoView();
 	}
  
 	private void setChannelList() {
+		arrayOfChannelsAdapter = new TvAdapter(this, R.layout.channel_item, new ArrayList<Tv>());
 		
-		Tv[] channels = {new Tv("QQ", "bb","CC"), new Tv("2", "a", "3")};
 		ListView listOfChannels = (ListView)findViewById(R.id.listOfChannels);
-		arrayOfChannelsAdapter = new TvAdapter(this, R.layout.channel_item, channels);
-		
 		listOfChannels.setAdapter(arrayOfChannelsAdapter);
-		 
+		
+		new ListTvsApiCall().execute(this);
 	}
 	
 	public void updateTvsListView(Collection<Tv> tvs) {
-		arrayOfChannelsAdapter.addAll(tvs); 
+		arrayOfChannelsAdapter.clear();
+		arrayOfChannelsAdapter.addAll(tvs);
+		arrayOfChannelsAdapter.notifyDataSetChanged();
 	}
 	
 	private void startVideoView() {
