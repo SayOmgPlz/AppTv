@@ -21,7 +21,7 @@ import android.os.AsyncTask;
 class ListTvsApiCall extends AsyncTask<MainActivity, String, Collection<Tv>> {
 	private MainActivity current;
 	
-	private static final String TVS_URL = "http://46.47.81.78/stalker_portal/api/itv";
+	private static final String TVS_URL = "http://78.83.108.31:88/stalker_portal/api/itv";
 
 	@Override
 	protected Collection<Tv> doInBackground(MainActivity... params) {
