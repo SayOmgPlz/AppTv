@@ -14,8 +14,9 @@ class Tv {
 		this.name = name;
 		this.cmd = cmd;
 		this.type = type;
+		this.codec = null;
+		
 		String[] parts = this.cmd.split("http");
-		//
 		// when we only have the url without the codec in the cmd
 		if(parts.length == 1) {
 			this.url = "http" + parts[0];

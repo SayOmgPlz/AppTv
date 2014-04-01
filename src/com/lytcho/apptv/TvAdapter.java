@@ -2,7 +2,6 @@ package com.lytcho.apptv;
 
 import java.util.List;
 
-import android.app.AlertDialog;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -48,11 +47,7 @@ public class TvAdapter extends ArrayAdapter<Tv> {
             	
             	@Override
             	public void onClick(View v) {
-            		AlertDialog alertDialog = new  AlertDialog.Builder(activity).create();
-            		alertDialog.setTitle("Reset...");
-            		alertDialog.setMessage("ITEM: " +  item.url + " " + item.name + " " + item.codec);
- //
-            		alertDialog.show();
+
             		activity.setVideoSrc(item.url);
             		activity.startVideo();
             	}

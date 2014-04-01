@@ -19,22 +19,27 @@ import org.json.JSONObject;
 import android.os.AsyncTask;
 
 class ListTvsApiCall extends AsyncTask<MainActivity, String, Collection<Tv>> {
-	private MainActivity current;
+	private MainActivity currentActivity;
 	
-	private static final String TVS_URL = "http://78.83.108.31:88/stalker_portal/api/itv";
+	private static final String TVS_URL = "http://46.47.81.78/stalker_portal/api/itv";
 
 	@Override
 	protected Collection<Tv> doInBackground(MainActivity... params) {
-		current = params[0]; // URL to call TODO
-	    
+		currentActivity = params[0]; // URL to call TODO
+		return getChannels();
+	}
+	
+	private Collection<Tv> getChannels() {
+		return parseResponse(httpRequest(TVS_URL));
+	}
+	
+	private String httpRequest(String url) {
 		BufferedReader reader = null;
- 
-        String response = "";
-        
-        HttpClient httpClient = new DefaultHttpClient();
-
-        try{
-            HttpGet httpGet = new HttpGet(TVS_URL);
+		String response = "";
+		
+        try {
+        	HttpClient httpClient = new DefaultHttpClient();
+            HttpGet httpGet = new HttpGet(url);
             HttpResponse httpResponse = httpClient.execute(httpGet);
             HttpEntity httpEntity = httpResponse.getEntity();
             if(httpEntity != null){
@@ -63,8 +68,7 @@ class ListTvsApiCall extends AsyncTask<MainActivity, String, Collection<Tv>> {
 				e.printStackTrace();
 			}
         }    
-        	
-        return parseResponse(response);      
+        return response;
 	}
 
 	private Collection<Tv> parseResponse(String response) {
@@ -103,6 +107,7 @@ class ListTvsApiCall extends AsyncTask<MainActivity, String, Collection<Tv>> {
 	
 	@Override
 	protected void onPostExecute(Collection<Tv> tvs) {
-		current.updateTvsListView(tvs);
+		//currentActivity.updateUserData();
+		currentActivity.updateTvsListView(tvs);
 	}
 }

@@ -14,12 +14,15 @@ public class MainActivity extends Activity {
 	private TvAdapter arrayOfChannelsAdapter;
 	private String videoSrc = "http://hd3.lsops.net/live/smil:aljazeer_ar_hls/playlist.m3u8";
 	private VideoView videoView;
+	//private User user;
 	
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+		
+		//user = User();
 		
 		setChannelList();
 		
@@ -41,6 +44,10 @@ public class MainActivity extends Activity {
 		arrayOfChannelsAdapter.clear();
 		arrayOfChannelsAdapter.addAll(tvs);
 		arrayOfChannelsAdapter.notifyDataSetChanged();
+	}
+	
+	public void updateUserData() {
+		//user.setProperties();
 	}
 	
 	private void initAndStartVideo() {
