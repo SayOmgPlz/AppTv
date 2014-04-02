@@ -20,17 +20,17 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 class ListTvsApiCall extends AsyncTask<MainActivity, String, Collection<Tv>> {
-	private MainActivity currentActivity;
-	private static String baseUrl = "http://46.47.81.78/stalker_portal/api/";
-	private static final String TVS_URL = baseUrl + "itv/";
-	private static String USER_SUBSCRIBTION = baseUrl + "itv_subscription/";
+	private static final String API_URL = "http://46.47.81.78/stalker_portal/api/";
+	private static final String TVS_URL = API_URL + "itv/";
 	
+	private MainActivity currentActivity;
+	private String userSubscriptionUrl = API_URL + "itv_subscription/";
 	
 	@Override
 	protected Collection<Tv> doInBackground(MainActivity... params) {
 		currentActivity = params[0]; // URL to call TODO
 		DeviceUtility device = new DeviceUtility(currentActivity);
-		this.USER_SUBSCRIBTION += device.getMac(); 
+		this.userSubscriptionUrl += device.getMac(); 
 		return getChannels(getSubscribedChannels());
 	}
 	
@@ -39,7 +39,7 @@ class ListTvsApiCall extends AsyncTask<MainActivity, String, Collection<Tv>> {
 	}
 	
 	private String getSubscribedChannels() {
-		return parseSubscribedChannelIds(httpRequest(USER_SUBSCRIBTION));
+		return parseSubscribedChannelIds(httpRequest(userSubscriptionUrl));
 	}
 	
 	private String httpRequest(String url) {
@@ -147,6 +147,9 @@ class ListTvsApiCall extends AsyncTask<MainActivity, String, Collection<Tv>> {
 	protected void onPostExecute(Collection<Tv> tvs) {
 		//currentActivity.updateUserData();
 		currentActivity.updateTvsListView(tvs);
+		if(tvs.size() != 0) {
+			currentActivity.playVideo(tvs.toArray(new Tv[0])[0].url);
+		}
 	}
 	
 	private void log(String message) {

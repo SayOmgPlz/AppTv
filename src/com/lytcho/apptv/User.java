@@ -9,4 +9,8 @@ public class User {
 	public User(Collection<Tv> subscribtions){
 		this.subscribtions = subscribtions;
 	}
+	
+	public Collection<Tv> getSubscriptions() {
+		return subscribtions;
+	}
 }
