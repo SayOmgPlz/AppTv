@@ -13,7 +13,8 @@ public class DeviceUtility {
 		this.context = context;
 	}
 	
-	public String getMac() {		
+	public String getMac() {	
+		
 		if(hasWifi()) {
 			return getWifiMac();
 		}
