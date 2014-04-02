@@ -36,7 +36,7 @@ class ListTvsApiCall extends AsyncTask<MainActivity, String, User> {
 		
 		User currentUser = new User();
 		
-		mac = "EE:22:33:44:55:FF";
+		//mac = "EE:22:33:44:55:FF";
 		
 		if(mac != null && !mac.isEmpty()) {		
 			currentUser = getUserData(mac);
