@@ -12,8 +12,8 @@ import android.widget.TextView;
 
 public class TvAdapter extends ArrayAdapter<Tv> {
 
-    Context context; 
-    int layoutResourceId;    
+    Context context;
+    int layoutResourceId;
     List<Tv> data;
     MainActivity activity;
     
@@ -47,7 +47,8 @@ public class TvAdapter extends ArrayAdapter<Tv> {
             	
             	@Override
             	public void onClick(View v) {
-            		activity.playVideo(item.url);
+            		activity.setVideoUrl(item.url);
+            		activity.playVideo();
             	}
             });
         }

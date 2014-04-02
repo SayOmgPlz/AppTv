@@ -19,7 +19,7 @@ android:orientation="vertical" android:background="#666666">
 		    android:layout_weight="1"
 		    android:orientation="horizontal" >
 		</ListView>
-		
+
 		<VideoView
 		    android:layout_height="wrap_content"
 		    android:layout_width="0dp"
@@ -30,6 +30,12 @@ android:orientation="vertical" android:background="#666666">
 		    
 		</VideoView>
 	</LinearLayout>
+
+	<Button
+	    android:id="@+id/fullScreenVideo"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:text="Full Screen" />
 	
 	<TextView android:layout_width="fill_parent"
 	android:layout_height="wrap_content" android:text="Channel info that is"

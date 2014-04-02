@@ -164,7 +164,8 @@ class ListTvsApiCall extends AsyncTask<MainActivity, String, List<Tv>> {
 		if(tvs.isEmpty())
 			currentActivity.alert("The user does not exist in database or is not subscribed for any channel");
 		else {
-			currentActivity.playVideo(tvs.toArray(new Tv[0])[0].url);
+			currentActivity.setVideoUrl(tvs.toArray(new Tv[0])[0].url);
+			currentActivity.playVideo();
 		}
 		
 	}

@@ -7,8 +7,11 @@ import java.util.List;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.MediaController;
 import android.widget.VideoView;
@@ -16,6 +19,8 @@ import android.widget.VideoView;
 public class MainActivity extends Activity {
 	private TvAdapter arrayOfChannelsAdapter;
 	private VideoView videoView;
+	
+	private String videoUrl;
 	//private User user;
 	
 
@@ -29,12 +34,12 @@ public class MainActivity extends Activity {
 		setChannelList();
 		
 		initVideoView();
-		
-		alert("Latest App Version");
-		
-		alert(new DeviceUtility(this).getMac());
-		alert(new DeviceUtility(this).getWifiMac());
-		alert(new DeviceUtility(this).hasWifi() ? "true" : "false");
+//		
+//		alert("Latest App Version");
+//		 	
+//		alert(new DeviceUtility(this).getMac());
+//		alert(new DeviceUtility(this).getWifiMac());
+//		alert(new DeviceUtility(this).hasWifi() ? "true" : "false");
 	}
 	
 	public void updateTvsListView(List<Tv> tvs) {
@@ -52,10 +57,15 @@ public class MainActivity extends Activity {
 		//user.setProperties();
 	}
 	
-	public void playVideo(String url) {
+	public void playVideo() {
 		videoView.stopPlayback();
-		videoView.setVideoPath(url);
-		videoView.start();
+		if(videoUrl != null) {
+			videoView.setVideoPath(videoUrl);
+		}
+	}
+	
+	public void stopVideo() {
+		videoView.stopPlayback();
 	}
 	
 	public void alert(String message) {
@@ -75,13 +85,27 @@ public class MainActivity extends Activity {
 		
 		new ListTvsApiCall().execute(this);
 	}
+	
+	public void setVideoUrl(String url) {
+		videoUrl = url;
+	}
 
 	private void initVideoView() {
-		videoView = (VideoView) this.findViewById(R.id.focusedTv);
+		videoView = (VideoView)findViewById(R.id.focusedTv);
 		videoView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_FULLSCREEN);
 		
 		MediaController mediaController = new MediaController(this);
 		mediaController.setAnchorView(videoView);
 		videoView.setMediaController(mediaController);
+		
+		Button fullScreenButton = (Button)findViewById(R.id.fullScreenVideo);
+		fullScreenButton.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+			    Intent intent = new Intent(MainActivity.this, VideoActivity.class);
+			    intent.putExtra("videoUrl", videoUrl);
+			    startActivity(intent);
+			}
+		});
 	}
 }
