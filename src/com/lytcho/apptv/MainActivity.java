@@ -35,6 +35,8 @@ public class MainActivity extends Activity {
 		arrayOfChannelsAdapter.clear();
 		arrayOfChannelsAdapter.addAll(tvs);
 		arrayOfChannelsAdapter.notifyDataSetChanged();
+		//ListView channelList = (ListView)findViewById(R.id.listOfChannels);
+		//channelList.getChildAt(0).performClick();
 	}
 	
 	public void updateUserData() {
