@@ -32,9 +32,8 @@ public class MainActivity extends Activity {
 		
 		alert("Latest App Version");
 		
-		alert(new DeviceUtility(this).getMac());
-		alert(new DeviceUtility(this).getWifiMac());
-		alert(new DeviceUtility(this).hasWifi() ? "true" : "false");
+		alert("Mac:" + new DeviceUtility(this).getWifiMac());
+		alert("Has Wifi:" + (new DeviceUtility(this).hasWifi() ? "true" : "false"));
 	}
 	
 	public void updateTvsListView(List<Tv> tvs) {

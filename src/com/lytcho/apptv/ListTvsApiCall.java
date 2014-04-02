@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import org.apache.http.HttpEntity;
@@ -37,11 +36,13 @@ class ListTvsApiCall extends AsyncTask<MainActivity, String, User> {
 		
 		User currentUser = new User();
 		
+		mac = "EE:22:33:44:55:FF";
+		
 		if(mac != null && !mac.isEmpty()) {		
 			currentUser = getUserData(mac);
 			
 			// if we have found the userMac in the backed from the reponse
-			if(currentUser.isEmpty()) {
+			if(!currentUser.isEmpty()) {
 				currentUser.setSubscribtions(getChannels(getSubscribedChannelIds(mac)));
 			}			
 		} 
@@ -135,6 +136,7 @@ class ListTvsApiCall extends AsyncTask<MainActivity, String, User> {
 			/****** Creates a new JSONObject with name/value mappings from the JSON string. ********/
 			JSONObject jsonResponse = new JSONObject(response);
 			
+			
 		    JSONArray jsonChannels = jsonResponse.optJSONArray("results");
 
 		    /*********** Process each JSON Node ************/
@@ -168,6 +170,10 @@ class ListTvsApiCall extends AsyncTask<MainActivity, String, User> {
 		try {
 			/****** Creates a new JSONObject with name/value mappings from the JSON string. ********/
 			JSONObject jsonResponse = new JSONObject(response);
+			
+			if(jsonResponse.optString("status").toString() != "OK") {
+				return resultUser;
+			}
 			
 		    JSONArray jsonUserData = jsonResponse.optJSONArray("results");
 		    
