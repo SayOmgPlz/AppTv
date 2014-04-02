@@ -1,6 +1,8 @@
 package com.lytcho.apptv;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import android.app.Activity;
@@ -30,11 +32,14 @@ public class MainActivity extends Activity {
 	}
 	
 	public void updateTvsListView(List<Tv> tvs) {
+		Collections.sort(tvs, new Comparator<Tv>() {
+			@Override
+			public int compare(Tv lhs, Tv rhs) {
+				return lhs.number.compareTo(rhs.number);
+			}});
 		arrayOfChannelsAdapter.clear();
 		arrayOfChannelsAdapter.addAll(tvs);
 		arrayOfChannelsAdapter.notifyDataSetChanged();
-		//ListView channelList = (ListView)findViewById(R.id.listOfChannels);
-		//channelList.getChildAt(0).performClick();
 	}
 	
 	public void updateUserData() {
@@ -53,7 +58,7 @@ public class MainActivity extends Activity {
 	    .setMessage(message)
 	    .show();
 	}
-	
+
 	private void setChannelList() {
 		arrayOfChannelsAdapter = new TvAdapter(this, R.layout.channel_item, new ArrayList<Tv>(), this);
 		
@@ -64,7 +69,7 @@ public class MainActivity extends Activity {
 		
 		new ListTvsApiCall().execute(this);
 	}
-	
+
 	private void initVideoView() {
 		videoView = (VideoView) this.findViewById(R.id.focusedTv);
 		videoView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_FULLSCREEN);

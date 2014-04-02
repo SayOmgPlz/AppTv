@@ -136,8 +136,9 @@ class ListTvsApiCall extends AsyncTask<MainActivity, String, List<Tv>> {
 		        /******* Fetch node values **********/
 		        String name = jsonChildNode.optString("name").toString();
 		        String cmd  = jsonChildNode.optString("url").toString();		      
-		        String type = jsonChildNode.optString("type").toString();		        
-		        Tv tv = new Tv(name, cmd, type);
+		        String type = jsonChildNode.optString("type").toString();
+		        Integer number = jsonChildNode.optInt("number");
+		        Tv tv = new Tv(name, cmd, type, number);
 		        
 		        tv.id   = jsonChildNode.optString("id").toString();
 		        
