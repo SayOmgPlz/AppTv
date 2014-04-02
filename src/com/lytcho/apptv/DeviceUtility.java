@@ -26,7 +26,7 @@ public class DeviceUtility {
 		return context.getPackageManager().hasSystemFeature(PackageManager.FEATURE_WIFI);
 	}
 	
-	private String getWifiMac() {
+	public String getWifiMac() {
 		WifiManager wifiMan = (WifiManager) context.getSystemService(
 		                Context.WIFI_SERVICE);
 		WifiInfo wifiInf = wifiMan.getConnectionInfo();

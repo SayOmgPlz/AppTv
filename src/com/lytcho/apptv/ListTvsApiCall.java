@@ -23,30 +23,37 @@ import android.util.Log;
 class ListTvsApiCall extends AsyncTask<MainActivity, String, List<Tv>> {
 	private static final String API_URL = "http://46.47.81.78/stalker_portal/api/";
 	private static final String TVS_URL = API_URL + "itv/";
+	private static final String USER_SUBSCRIPTION_URL = API_URL + "itv_subscription/";
+	private static final String USER_INFO_URL = API_URL + "accounts/";
 	
 	private MainActivity currentActivity;
-	private String userSubscriptionUrl = API_URL + "itv_subscription/";
 	
+
 	@Override
 	protected List<Tv> doInBackground(MainActivity... params) {
 		currentActivity = params[0]; // URL to call TODO
 		DeviceUtility device = new DeviceUtility(currentActivity);
 		String mac = device.getMac();
-		if(mac != null && !mac.isEmpty()) {
-			userSubscriptionUrl += device.getMac(); 
-			return getChannels(getSubscribedChannels());
-		} 
-
-
-		return Collections.emptyList();
+		
+		if(mac != null && !mac.isEmpty()) {		
+			//User currentUser = getUserData(mac);
+			//currentUser.setSubscribtions(getChannels(getSubscribedChannelIds(mac)));
+			return getChannels(getSubscribedChannelIds(mac));
+		} else { 
+			return Collections.emptyList();
+		}
+	}
+	
+//	private User getUserData(String mac) {
+//		return parseUserData(httpRequest(USER_INFO_URL + mac));
+//	}
+	
+	private String getSubscribedChannelIds(String mac) {
+		return parseSubscribedChannelIds(httpRequest(USER_SUBSCRIPTION_URL + mac));
 	}
 	
 	private List<Tv> getChannels(String channelIds) {
 		return parseTvData(httpRequest(TVS_URL + channelIds));
-	}
-	
-	private String getSubscribedChannels() {
-		return parseSubscribedChannelIds(httpRequest(userSubscriptionUrl));
 	}
 	
 	private String httpRequest(String url) {

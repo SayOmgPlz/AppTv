@@ -27,6 +27,12 @@ public class MainActivity extends Activity {
 		setChannelList();
 		
 		initVideoView();
+		
+		alert("Latest App Version");
+		
+		alert(new DeviceUtility(this).getMac());
+		alert(new DeviceUtility(this).getWifiMac());
+		alert(new DeviceUtility(this).hasWifi() ? "true" : "false");
 	}
 	
 	public void updateTvsListView(List<Tv> tvs) {
