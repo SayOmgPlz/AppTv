@@ -5,8 +5,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -20,7 +20,7 @@ import org.json.JSONObject;
 import android.os.AsyncTask;
 import android.util.Log;
 
-class ListTvsApiCall extends AsyncTask<MainActivity, String, Collection<Tv>> {
+class ListTvsApiCall extends AsyncTask<MainActivity, String, List<Tv>> {
 	private static final String API_URL = "http://46.47.81.78/stalker_portal/api/";
 	private static final String TVS_URL = API_URL + "itv/";
 	
@@ -28,7 +28,7 @@ class ListTvsApiCall extends AsyncTask<MainActivity, String, Collection<Tv>> {
 	private String userSubscriptionUrl = API_URL + "itv_subscription/";
 	
 	@Override
-	protected Collection<Tv> doInBackground(MainActivity... params) {
+	protected List<Tv> doInBackground(MainActivity... params) {
 		currentActivity = params[0]; // URL to call TODO
 		DeviceUtility device = new DeviceUtility(currentActivity);
 		String mac = device.getMac();
@@ -41,7 +41,7 @@ class ListTvsApiCall extends AsyncTask<MainActivity, String, Collection<Tv>> {
 		return Collections.emptyList();
 	}
 	
-	private Collection<Tv> getChannels(String channelIds) {
+	private List<Tv> getChannels(String channelIds) {
 		return parseTvData(httpRequest(TVS_URL + channelIds));
 	}
 	
@@ -116,8 +116,8 @@ class ListTvsApiCall extends AsyncTask<MainActivity, String, Collection<Tv>> {
 		return subscribedAsString;
 	}
 
-	private Collection<Tv> parseTvData(String response) {
-		Collection<Tv> tvs = new ArrayList<Tv>();
+	private List<Tv> parseTvData(String response) {
+		List<Tv> tvs = new ArrayList<Tv>();
 		
 		try {
 			/****** Creates a new JSONObject with name/value mappings from the JSON string. ********/
@@ -151,7 +151,7 @@ class ListTvsApiCall extends AsyncTask<MainActivity, String, Collection<Tv>> {
 	}
 	
 	@Override
-	protected void onPostExecute(Collection<Tv> tvs) {
+	protected void onPostExecute(List<Tv> tvs) {
 		currentActivity.updateTvsListView(tvs);
 		if(tvs.isEmpty())
 			currentActivity.alert("The user does not exist in database or is not subscribed for any channel");

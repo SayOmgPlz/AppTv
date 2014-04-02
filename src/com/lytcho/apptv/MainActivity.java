@@ -1,7 +1,7 @@
 package com.lytcho.apptv;
 
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -29,7 +29,7 @@ public class MainActivity extends Activity {
 		initVideoView();
 	}
 	
-	public void updateTvsListView(Collection<Tv> tvs) {
+	public void updateTvsListView(List<Tv> tvs) {
 		arrayOfChannelsAdapter.clear();
 		arrayOfChannelsAdapter.addAll(tvs);
 		arrayOfChannelsAdapter.notifyDataSetChanged();
