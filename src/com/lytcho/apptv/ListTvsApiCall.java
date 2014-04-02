@@ -17,20 +17,29 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.os.AsyncTask;
+import android.util.Log;
 
 class ListTvsApiCall extends AsyncTask<MainActivity, String, Collection<Tv>> {
 	private MainActivity currentActivity;
+	private static String baseUrl = "http://46.47.81.78/stalker_portal/api/";
+	private static final String TVS_URL = baseUrl + "itv/";
+	private static String USER_SUBSCRIBTION = baseUrl + "itv_subscription/";
 	
-	private static final String TVS_URL = "http://46.47.81.78/stalker_portal/api/itv";
-
+	
 	@Override
 	protected Collection<Tv> doInBackground(MainActivity... params) {
 		currentActivity = params[0]; // URL to call TODO
-		return getChannels();
+		DeviceUtility device = new DeviceUtility(currentActivity);
+		this.USER_SUBSCRIBTION += device.getMac(); 
+		return getChannels(getSubscribedChannels());
 	}
 	
-	private Collection<Tv> getChannels() {
-		return parseResponse(httpRequest(TVS_URL));
+	private Collection<Tv> getChannels(String channelIds) {
+		return parseTvData(httpRequest(TVS_URL + channelIds));
+	}
+	
+	private String getSubscribedChannels() {
+		return parseSubscribedChannelIds(httpRequest(USER_SUBSCRIBTION));
 	}
 	
 	private String httpRequest(String url) {
@@ -70,8 +79,37 @@ class ListTvsApiCall extends AsyncTask<MainActivity, String, Collection<Tv>> {
         }    
         return response;
 	}
+	
+	private String parseSubscribedChannelIds(String response) {
+		String subscribedAsString = "";
+		try {
+			/****** Creates a new JSONObject with name/value mappings from the JSON string. ********/
+			JSONObject jsonResponse = new JSONObject(response);
+			
+		    JSONArray jsonSubscribtions = jsonResponse.optJSONArray("results");
+		    
+		    int lengthJsonArr = jsonSubscribtions.length();  
+			
+		    for(int i=0; i < lengthJsonArr; ++i) {
+		        JSONObject jsonChildNode = jsonSubscribtions.getJSONObject(i);
+		          
+		        JSONArray subscribedTo = jsonChildNode.getJSONArray("sub_ch");
+		        
+		        // subscribedTo.join was not providing the needed result
+		        
+		        for(int j=0; j < subscribedTo.length(); ++j) {
+		        	subscribedAsString += "," + subscribedTo.getString(j);
+		        }
+		    }
+		    
+	    } catch (JSONException e) {
+		    e.printStackTrace();
+		}
+		
+		return subscribedAsString;
+	}
 
-	private Collection<Tv> parseResponse(String response) {
+	private Collection<Tv> parseTvData(String response) {
 		Collection<Tv> tvs = new ArrayList<Tv>();
 		
 		try {
@@ -109,5 +147,9 @@ class ListTvsApiCall extends AsyncTask<MainActivity, String, Collection<Tv>> {
 	protected void onPostExecute(Collection<Tv> tvs) {
 		//currentActivity.updateUserData();
 		currentActivity.updateTvsListView(tvs);
+	}
+	
+	private void log(String message) {
+		Log.i("customLog", "LOG:" + message);
 	}
 }
