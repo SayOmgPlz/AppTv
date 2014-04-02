@@ -21,11 +21,11 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 class ListTvsApiCall extends AsyncTask<MainActivity, String, Collection<Tv>> {
-	private MainActivity currentActivity;
-	private static String baseUrl = "http://46.47.81.78/stalker_portal/api/";
-	private static final String TVS_URL = baseUrl + "itv/";
-	private static String USER_SUBSCRIBTION = baseUrl + "itv_subscription/";
+	private static final String API_URL = "http://46.47.81.78/stalker_portal/api/";
+	private static final String TVS_URL = API_URL + "itv/";
 	
+	private MainActivity currentActivity;
+	private String userSubscriptionUrl = API_URL + "itv_subscription/";
 	
 	@Override
 	protected Collection<Tv> doInBackground(MainActivity... params) {
@@ -33,11 +33,11 @@ class ListTvsApiCall extends AsyncTask<MainActivity, String, Collection<Tv>> {
 		DeviceUtility device = new DeviceUtility(currentActivity);
 		String mac = device.getMac();
 		if(mac != null && !mac.isEmpty()) {
-			this.USER_SUBSCRIBTION += device.getMac(); 
+			userSubscriptionUrl += device.getMac(); 
 			return getChannels(getSubscribedChannels());
 		} 
-		
-		
+
+
 		return Collections.emptyList();
 	}
 	
@@ -46,7 +46,7 @@ class ListTvsApiCall extends AsyncTask<MainActivity, String, Collection<Tv>> {
 	}
 	
 	private String getSubscribedChannels() {
-		return parseSubscribedChannelIds(httpRequest(USER_SUBSCRIBTION));
+		return parseSubscribedChannelIds(httpRequest(userSubscriptionUrl));
 	}
 	
 	private String httpRequest(String url) {
@@ -155,6 +155,9 @@ class ListTvsApiCall extends AsyncTask<MainActivity, String, Collection<Tv>> {
 		currentActivity.updateTvsListView(tvs);
 		if(tvs.isEmpty())
 			currentActivity.alert("The user does not exist in database or is not subscribed for any channel");
+		else {
+			currentActivity.playVideo(tvs.toArray(new Tv[0])[0].url);
+		}
 		
 	}
 	

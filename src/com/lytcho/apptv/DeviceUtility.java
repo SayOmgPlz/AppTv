@@ -13,8 +13,10 @@ public class DeviceUtility {
 		this.context = context;
 	}
 	
-	public String getMac() {	
-		
+	public String getMac() {
+		if(true) {
+			return "11:22:33:44:55:AA";
+		}
 		if(hasWifi()) {
 			return getWifiMac();
 		}

@@ -47,15 +47,11 @@ public class TvAdapter extends ArrayAdapter<Tv> {
             	
             	@Override
             	public void onClick(View v) {
-
-            		activity.setVideoSrc(item.url);
-            		activity.startVideo();
+            		activity.playVideo(item.url);
             	}
             });
-         }
-        
+        }
 
         return view;
     }
-
 }

@@ -5,7 +5,6 @@ import java.util.Collection;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ListView;
@@ -14,7 +13,6 @@ import android.widget.VideoView;
 
 public class MainActivity extends Activity {
 	private TvAdapter arrayOfChannelsAdapter;
-	private String videoSrc = "";
 	private VideoView videoView;
 	//private User user;
 	
@@ -43,14 +41,10 @@ public class MainActivity extends Activity {
 		//user.setProperties();
 	}
 	
-	
-	public void startVideo() {
-		videoView.setVideoPath(videoSrc);
+	public void playVideo(String url) {
+		videoView.stopPlayback();
+		videoView.setVideoPath(url);
 		videoView.start();
-	}
-	
-	public void setVideoSrc(String url) {
-		videoSrc = url;
 	}
 	
 	public void alert(String message) {
