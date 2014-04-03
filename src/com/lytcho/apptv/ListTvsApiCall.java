@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import org.apache.http.HttpEntity;
@@ -20,7 +19,7 @@ import org.json.JSONObject;
 import android.os.AsyncTask;
 import android.util.Log;
 
-class ListTvsApiCall extends AsyncTask<MainActivity, String, List<Tv>> {
+class ListTvsApiCall extends AsyncTask<MainActivity, String, User> {
 	private static final String API_URL = "http://46.47.81.78/stalker_portal/api/";
 	private static final String TVS_URL = API_URL + "itv/";
 	private static final String USER_SUBSCRIPTION_URL = API_URL + "itv_subscription/";
@@ -30,23 +29,30 @@ class ListTvsApiCall extends AsyncTask<MainActivity, String, List<Tv>> {
 	
 
 	@Override
-	protected List<Tv> doInBackground(MainActivity... params) {
+	protected User doInBackground(MainActivity... params) {
 		currentActivity = params[0]; // URL to call TODO
 		DeviceUtility device = new DeviceUtility(currentActivity);
 		String mac = device.getMac();
 		
+		User currentUser = new User();
+		
+		//mac = "EE:22:33:44:55:FF";
+		
 		if(mac != null && !mac.isEmpty()) {		
-			//User currentUser = getUserData(mac);
-			//currentUser.setSubscribtions(getChannels(getSubscribedChannelIds(mac)));
-			return getChannels(getSubscribedChannelIds(mac));
-		} else { 
-			return Collections.emptyList();
-		}
+			currentUser = getUserData(mac);
+			
+			// if we have found the userMac in the backed from the reponse
+			if(!currentUser.isEmpty()) {
+				currentUser.setSubscribtions(getChannels(getSubscribedChannelIds(mac)));
+			}			
+		} 
+		
+		return currentUser;
 	}
 	
-//	private User getUserData(String mac) {
-//		return parseUserData(httpRequest(USER_INFO_URL + mac));
-//	}
+	private User getUserData(String mac) {
+		return parseUserData(httpRequest(USER_INFO_URL + mac));
+	}
 	
 	private String getSubscribedChannelIds(String mac) {
 		return parseSubscribedChannelIds(httpRequest(USER_SUBSCRIPTION_URL + mac));
@@ -130,6 +136,7 @@ class ListTvsApiCall extends AsyncTask<MainActivity, String, List<Tv>> {
 			/****** Creates a new JSONObject with name/value mappings from the JSON string. ********/
 			JSONObject jsonResponse = new JSONObject(response);
 			
+			
 		    JSONArray jsonChannels = jsonResponse.optJSONArray("results");
 
 		    /*********** Process each JSON Node ************/
@@ -158,8 +165,41 @@ class ListTvsApiCall extends AsyncTask<MainActivity, String, List<Tv>> {
 		return tvs;
 	}
 	
+	private User parseUserData(String response) {
+		User resultUser = new User();
+		try {
+			/****** Creates a new JSONObject with name/value mappings from the JSON string. ********/
+			JSONObject jsonResponse = new JSONObject(response);
+			
+			if(jsonResponse.optString("status").toString() != "OK") {
+				return resultUser;
+			}
+			
+		    JSONArray jsonUserData = jsonResponse.optJSONArray("results");
+		    
+		    int lengthJsonArr = jsonUserData.length();  
+			
+		    for(int i=0; i < lengthJsonArr; ++i) {
+		        JSONObject jsonChildNode = jsonUserData.getJSONObject(i);
+		          
+		        String userAccountNumber = jsonChildNode.optString("account_number").toString();
+		        String userName = jsonChildNode.optString("full_name").toString();
+		        
+		        resultUser.setAccountNumber(Integer.parseInt(userAccountNumber));
+		        resultUser.setUsername(userName);
+		    }
+		    
+	    } catch (JSONException e) {
+		    e.printStackTrace();
+		}
+		
+		return resultUser;
+	}
+	
 	@Override
-	protected void onPostExecute(List<Tv> tvs) {
+	protected void onPostExecute(User user) {
+		List<Tv> tvs = user.getSubscribtions();
+		
 		currentActivity.updateTvsListView(tvs);
 		if(tvs.isEmpty())
 			currentActivity.alert("The user does not exist in database or is not subscribed for any channel");
