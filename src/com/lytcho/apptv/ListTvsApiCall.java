@@ -33,6 +33,7 @@ class ListTvsApiCall extends AsyncTask<MainActivity, String, User> {
 		currentActivity = params[0]; // URL to call TODO
 		DeviceUtility device = new DeviceUtility(currentActivity);
 		String mac = device.getMac();
+//		currentActivity.alert(mac); // Alerts in doInBackground do not on a real device
 		
 		User currentUser = new User();
 		
@@ -171,7 +172,7 @@ class ListTvsApiCall extends AsyncTask<MainActivity, String, User> {
 			/****** Creates a new JSONObject with name/value mappings from the JSON string. ********/
 			JSONObject jsonResponse = new JSONObject(response);
 			
-			if(jsonResponse.optString("status").toString() != "OK") {
+			if(!jsonResponse.optString("status").equals("OK")) {
 				return resultUser;
 			}
 			
@@ -182,8 +183,8 @@ class ListTvsApiCall extends AsyncTask<MainActivity, String, User> {
 		    for(int i=0; i < lengthJsonArr; ++i) {
 		        JSONObject jsonChildNode = jsonUserData.getJSONObject(i);
 		          
-		        String userAccountNumber = jsonChildNode.optString("account_number").toString();
-		        String userName = jsonChildNode.optString("full_name").toString();
+		        String userAccountNumber = jsonChildNode.optString("account_number");
+		        String userName = jsonChildNode.optString("full_name");
 		        
 		        resultUser.setAccountNumber(Integer.parseInt(userAccountNumber));
 		        resultUser.setUsername(userName);
@@ -201,9 +202,9 @@ class ListTvsApiCall extends AsyncTask<MainActivity, String, User> {
 		List<Tv> tvs = user.getSubscribtions();
 		
 		currentActivity.updateTvsListView(tvs);
-		if(tvs.isEmpty())
+		if(tvs.isEmpty()) {
 			currentActivity.alert("The user does not exist in database or is not subscribed for any channel");
-		else {
+		} else {
 			currentActivity.setVideoUrl(tvs.toArray(new Tv[0])[0].url);
 			currentActivity.playVideo();
 		}

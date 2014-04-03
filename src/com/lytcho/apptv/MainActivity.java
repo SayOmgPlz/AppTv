@@ -43,11 +43,11 @@ public class MainActivity extends Activity {
 	}
 	
 	public void updateTvsListView(List<Tv> tvs) {
-//		Collections.sort(tvs, new Comparator<Tv>() {
-//			@Override
-//			public int compare(Tv lhs, Tv rhs) {
-//				return lhs.number.compareTo(rhs.number);
-//			}});
+		Collections.sort(tvs, new Comparator<Tv>() {
+			@Override
+			public int compare(Tv lhs, Tv rhs) {
+				return lhs.number.compareTo(rhs.number);
+			}});
 		arrayOfChannelsAdapter.clear();
 		arrayOfChannelsAdapter.addAll(tvs);
 		arrayOfChannelsAdapter.notifyDataSetChanged();
