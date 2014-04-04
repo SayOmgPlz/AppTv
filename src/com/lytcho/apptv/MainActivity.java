@@ -58,10 +58,10 @@ public class MainActivity extends Activity {
 	}
 	
 	public void playVideo() {
-		videoView.stopPlayback();
 		if(videoUrl != null) {
 			videoView.setVideoPath(videoUrl);
-		}
+			videoView.start();
+		}	
 	}
 	
 	public void stopVideo() {
