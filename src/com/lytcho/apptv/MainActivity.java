@@ -11,6 +11,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.MediaController;
@@ -41,7 +43,18 @@ public class MainActivity extends Activity {
 //		alert(new DeviceUtility(this).getWifiMac());
 //		alert(new DeviceUtility(this).hasWifi() ? "true" : "false");
 	}
-	
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        findViewById(R.id.focusedTv).getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override public void onGlobalLayout() {
+                View squareView = findViewById(R.id.focusedTv);
+                squareView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+            }
+        });
+    }
+
 	public void updateTvsListView(List<Tv> tvs) {
 		Collections.sort(tvs, new Comparator<Tv>() {
 			@Override
