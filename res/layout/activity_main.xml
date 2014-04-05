@@ -31,13 +31,7 @@ android:orientation="vertical" android:background="#666666">
 		</VideoView>
 	</LinearLayout>
 
-	<Button
-	    android:id="@+id/fullScreenVideo"
-	    android:layout_width="wrap_content"
-	    android:layout_height="wrap_content"
-	    android:text="Full Screen" />
-	
-	<TextView android:layout_width="fill_parent"
+    <TextView android:layout_width="fill_parent"
 	android:layout_height="wrap_content" android:text="Channel info that is"
 	android:textColor="#FFFFFF" android:padding="2dip" 
 	android:layout_weight="1" 
