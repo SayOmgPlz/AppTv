@@ -9,9 +9,14 @@ import java.util.List;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -52,18 +57,20 @@ class ListTvsApiCall extends AsyncTask<MainActivity, String, User> {
 	}
 	
 	private User getUserData(String mac) {
-		return parseUserData(httpRequest(USER_INFO_URL + mac));
+		return parseUserData(httpGet(USER_INFO_URL + mac));
 	}
 	
 	private String getSubscribedChannelIds(String mac) {
-		return parseSubscribedChannelIds(httpRequest(USER_SUBSCRIPTION_URL + mac));
+		return parseSubscribedChannelIds(httpGet(USER_SUBSCRIPTION_URL + mac));
 	}
 	
 	private List<Tv> getChannels(String channelIds) {
-		return parseTvData(httpRequest(TVS_URL + channelIds));
+		return parseTvData(httpGet(TVS_URL + channelIds));
 	}
 	
-	private String httpRequest(String url) {
+	
+	// TODO:: MAKE IT UTILITY WITTH CUSTOM HEADERS AS A HASH PARAM
+	private String httpGet(String url) {
 		BufferedReader reader = null;
 		String response = "";
 		
@@ -210,6 +217,7 @@ class ListTvsApiCall extends AsyncTask<MainActivity, String, User> {
 		}
 		
 	}
+	
 	
 	private void log(String message) {
 		Log.i("customLog", "LOG:" + message);
