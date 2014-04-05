@@ -9,8 +9,10 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.MediaController;
@@ -19,7 +21,6 @@ import android.widget.VideoView;
 public class MainActivity extends Activity {
 	private TvAdapter arrayOfChannelsAdapter;
 	private VideoView videoView;
-	
 	private String videoUrl;
 	//private User user;
 	
@@ -41,7 +42,24 @@ public class MainActivity extends Activity {
 //		alert(new DeviceUtility(this).getWifiMac());
 //		alert(new DeviceUtility(this).hasWifi() ? "true" : "false");
 	}
-	
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        findViewById(R.id.focusedTv).getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override public void onGlobalLayout() {
+                View squareView = findViewById(R.id.focusedTv);
+                squareView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+            }
+        });
+    }
+
+    @Override
+    public void onStop() {
+        videoView.stopPlayback();
+        super.onStop();
+    }
+
 	public void updateTvsListView(List<Tv> tvs) {
 		Collections.sort(tvs, new Comparator<Tv>() {
 			@Override
@@ -63,7 +81,7 @@ public class MainActivity extends Activity {
 			videoView.start();
 		}	
 	}
-	
+
 	public void stopVideo() {
 		videoView.stopPlayback();
 	}
@@ -97,15 +115,15 @@ public class MainActivity extends Activity {
 		MediaController mediaController = new MediaController(this);
 		mediaController.setAnchorView(videoView);
 		videoView.setMediaController(mediaController);
-		
-		Button fullScreenButton = (Button)findViewById(R.id.fullScreenVideo);
-		fullScreenButton.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-			    Intent intent = new Intent(MainActivity.this, VideoActivity.class);
-			    intent.putExtra("videoUrl", videoUrl);
-			    startActivity(intent);
-			}
-		});
+
+        videoView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                Intent intent = new Intent(MainActivity.this, VideoActivity.class);
+                intent.putExtra("videoUrl", videoUrl);
+                startActivity(intent);
+                return true;
+            }
+        });
 	}
 }
