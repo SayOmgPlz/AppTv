@@ -2,4 +2,5 @@ bin/
 gen/
 .idea/
 export_key
+*.apk
 
