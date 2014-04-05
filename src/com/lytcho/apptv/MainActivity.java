@@ -55,9 +55,9 @@ public class MainActivity extends Activity {
     }
 
     @Override
-    public void onPause() {
+    public void onStop() {
         videoView.stopPlayback();
-        super.onPause();
+        super.onStop();
     }
 
 	public void updateTvsListView(List<Tv> tvs) {

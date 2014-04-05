@@ -37,15 +37,15 @@ public class VideoActivity extends Activity {
 	}
 
 	@Override
-	public void onResume() {
-        super.onResume();
+	public void onStart() {
+        super.onStart();
 		playVideo();
 	}
 
 	@Override
-	public void onPause() {
+	public void onStop() {
         videoView.stopPlayback();
-		super.onPause();
+		super.onStop();
 	}
 
 	public void playVideo() {

@@ -20,7 +20,7 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 class ListTvsApiCall extends AsyncTask<MainActivity, String, User> {
-	private static final String API_URL = "http://46.47.81.78/stalker_portal/api/";
+	private static final String API_URL = "http://78.83.108.31/stalker_portal/api/";
 	private static final String TVS_URL = API_URL + "itv/";
 	private static final String USER_SUBSCRIPTION_URL = API_URL + "itv_subscription/";
 	private static final String USER_INFO_URL = API_URL + "accounts/";
