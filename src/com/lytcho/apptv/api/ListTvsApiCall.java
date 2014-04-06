@@ -1,4 +1,4 @@
-package com.lytcho.apptv;
+package com.lytcho.apptv.api;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -7,6 +7,10 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.lytcho.apptv.DeviceUtility;
+import com.lytcho.apptv.MainActivity;
+import com.lytcho.apptv.models.Tv;
+import com.lytcho.apptv.models.User;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -19,9 +23,7 @@ import org.json.JSONObject;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import static com.lytcho.apptv.StalkerApi.*;
-
-class ListTvsApiCall extends AsyncTask<MainActivity, String, User> {	
+public class ListTvsApiCall extends AsyncTask<MainActivity, String, User> {
 	private MainActivity currentActivity;
 	
 
@@ -62,15 +64,15 @@ class ListTvsApiCall extends AsyncTask<MainActivity, String, User> {
 	}
 	
 	private User getUserData(String mac) {
-		return parseUserData(httpGet(USER_INFO_URL + mac));
+		return parseUserData(httpGet(StalkerApi.USER_INFO_URL + mac));
 	}
 	
 	private String getSubscribedChannelIds(String mac) {
-		return parseSubscribedChannelIds(httpGet(USER_SUBSCRIPTION_URL + mac));
+		return parseSubscribedChannelIds(httpGet(StalkerApi.USER_SUBSCRIPTION_URL + mac));
 	}
 	
 	private List<Tv> getChannels(String channelIds) {
-		return parseTvData(httpGet(TVS_URL + channelIds));
+		return parseTvData(httpGet(StalkerApi.TVS_URL + channelIds));
 	}
 	
 	
@@ -119,12 +121,12 @@ class ListTvsApiCall extends AsyncTask<MainActivity, String, User> {
 			/****** Creates a new JSONObject with name/value mappings from the JSON string. ********/
 			JSONObject jsonResponse = new JSONObject(response);
 			
-		    JSONArray jsonSubscribtions = jsonResponse.optJSONArray("results");
+		    JSONArray jsonSubscriptions = jsonResponse.optJSONArray("results");
 		    
-		    int lengthJsonArr = jsonSubscribtions.length();  
+		    int lengthJsonArr = jsonSubscriptions.length();
 			
 		    for(int i=0; i < lengthJsonArr; ++i) {
-		        JSONObject jsonChildNode = jsonSubscribtions.getJSONObject(i);
+		        JSONObject jsonChildNode = jsonSubscriptions.getJSONObject(i);
 		          
 		        JSONArray subscribedTo = jsonChildNode.getJSONArray("sub_ch");
 		        

@@ -15,6 +15,8 @@ import android.view.ViewTreeObserver;
 import android.widget.ListView;
 import android.widget.MediaController;
 import android.widget.VideoView;
+import com.lytcho.apptv.api.ListTvsApiCall;
+import com.lytcho.apptv.models.Tv;
 
 public class MainActivity extends Activity {
 	private TvAdapter arrayOfChannelsAdapter;

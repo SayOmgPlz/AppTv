@@ -1,6 +1,6 @@
-package com.lytcho.apptv;
+package com.lytcho.apptv.models;
 
-class Tv {
+public class Tv {
 	public String id;
 	public String name;
 	public String cmd;

@@ -15,7 +15,7 @@ public class DeviceUtility {
 	
 	public String getMac() {
 		if(true) {
-			return "00:88:05:01:89:01";
+			return "BB:B8:36:87:FD:9E";
 		}
 		if(hasWifi()) {
 			return getWifiMac();

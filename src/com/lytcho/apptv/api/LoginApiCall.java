@@ -1,6 +1,4 @@
-package com.lytcho.apptv;
-
-import static com.lytcho.apptv.StalkerApi.AUTH_TOKEN_URL;
+package com.lytcho.apptv.api;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -11,6 +9,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.lytcho.apptv.LoginActivity;
+import com.lytcho.apptv.R;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -70,7 +70,7 @@ public class LoginApiCall extends AsyncTask<LoginActivity, String, Boolean> {
 	private Map<String, String> getAuthToken(String username, String password) {
 		// Create a new HttpClient and Post Header
 		HttpClient httpclient = new DefaultHttpClient();
-		HttpPost httppost = new HttpPost(AUTH_TOKEN_URL);
+		HttpPost httppost = new HttpPost(StalkerApi.AUTH_TOKEN_URL);
 		httppost.addHeader("Content-Type", "application/x-www-form-urlencoded");
 		
 		Map<String, String> result = new HashMap<String, String>();

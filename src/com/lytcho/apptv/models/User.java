@@ -1,4 +1,4 @@
-package com.lytcho.apptv;
+package com.lytcho.apptv.models;
 
 import java.util.Collections;
 import java.util.List;

@@ -1,4 +1,4 @@
-package com.lytcho.apptv;
+package com.lytcho.apptv.api;
 
 public class StalkerApi {
 	// TODO remove trailing slashes
