@@ -9,14 +9,9 @@ import java.util.List;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
-import org.apache.http.NameValuePair;
-import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -24,18 +19,28 @@ import org.json.JSONObject;
 import android.os.AsyncTask;
 import android.util.Log;
 
-class ListTvsApiCall extends AsyncTask<MainActivity, String, User> {
-	private static final String API_URL = "http://78.83.108.31/stalker_portal/api/";
-	private static final String TVS_URL = API_URL + "itv/";
-	private static final String USER_SUBSCRIPTION_URL = API_URL + "itv_subscription/";
-	private static final String USER_INFO_URL = API_URL + "accounts/";
-	
+import static com.lytcho.apptv.StalkerApi.*;
+
+class ListTvsApiCall extends AsyncTask<MainActivity, String, User> {	
 	private MainActivity currentActivity;
 	
 
 	@Override
 	protected User doInBackground(MainActivity... params) {
 		currentActivity = params[0]; // URL to call TODO
+		
+		if(true) {
+			return getViaLogin();
+		}
+		
+		return getUsingThisDeviceMac();
+	}
+	
+	private User getViaLogin() {
+		return new User();
+	}
+	
+	private User getUsingThisDeviceMac() {
 		DeviceUtility device = new DeviceUtility(currentActivity);
 		String mac = device.getMac();
 //		currentActivity.alert(mac); // Alerts in doInBackground do not on a real device
