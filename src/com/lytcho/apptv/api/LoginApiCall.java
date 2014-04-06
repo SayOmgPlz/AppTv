@@ -26,11 +26,11 @@ import org.json.JSONObject;
 import android.os.AsyncTask;
 import android.widget.EditText;
 
-public class LoginApiCall extends AsyncTask<LoginActivity, String, Boolean> {
+public class LoginApiCall extends AsyncTask<LoginActivity, String, Map<String, String> > {
 	private LoginActivity currentActivity;
 
 	@Override
-	protected Boolean doInBackground(LoginActivity... params) {
+	protected Map<String, String>  doInBackground(LoginActivity... params) {
 		// TODO Auto-generated method stub
 		currentActivity = params[0];
 		EditText username = (EditText) currentActivity
@@ -42,10 +42,13 @@ public class LoginApiCall extends AsyncTask<LoginActivity, String, Boolean> {
 	}
 
 	@Override
-	protected void onPostExecute(Boolean response) {
-		if(response) {
-			currentActivity.goToMainActivity();
+	protected void onPostExecute(Map<String, String> response) {
+		
+		String userId = response.get("userId");
+		if( userId != null && !userId.isEmpty()){
+			currentActivity.goToMainActivity(response);
 		} else {
+		
             // TODO we must make difference between several cases
             // - Wrong username password
             // - No internet connection
@@ -54,16 +57,10 @@ public class LoginApiCall extends AsyncTask<LoginActivity, String, Boolean> {
 		}
 	}
 
-	public Boolean login(String username, String password) {
+	public Map<String, String> login(String username, String password) {
 		Map<String, String> tokenInfo = getAuthToken(username, password);
-		
-		String token = tokenInfo.get("token");
-		
-		if( token != null && !token.isEmpty()){
-			return true;
-		}
-		
-		return false;
+				
+		return tokenInfo;
 	}
 
 

@@ -6,11 +6,8 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
-import com.lytcho.apptv.NetworkDevice;
-import com.lytcho.apptv.MainActivity;
-import com.lytcho.apptv.models.Tv;
-import com.lytcho.apptv.models.User;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -23,6 +20,11 @@ import org.json.JSONObject;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import com.lytcho.apptv.MainActivity;
+import com.lytcho.apptv.NetworkDevice;
+import com.lytcho.apptv.models.Tv;
+import com.lytcho.apptv.models.User;
+
 public class ListTvsApiCall extends AsyncTask<MainActivity, String, User> {
 	private MainActivity currentActivity;
 	
@@ -30,6 +32,7 @@ public class ListTvsApiCall extends AsyncTask<MainActivity, String, User> {
 	@Override
 	protected User doInBackground(MainActivity... params) {
 		currentActivity = params[0]; // URL to call TODO
+
 		
 		if(true) {
 			return getViaLogin();
@@ -39,7 +42,23 @@ public class ListTvsApiCall extends AsyncTask<MainActivity, String, User> {
 	}
 	
 	private User getViaLogin() {
-		return new User();
+		User currentUser = new User();
+		
+		currentUser.setSubscriptions(getChannels(currentActivity.userInfo));
+	
+		return currentUser;
+	}
+	
+	private void pingUser(final Map<String, String> reqeustInfo) {
+	        try {
+	    		do {
+	    			httpGet(StalkerApi.API_V2_URL + "users/" + reqeustInfo.get("userId") + "/ping", reqeustInfo.get("token") );
+	    			Thread.sleep(1000 * 120);
+	    		} while(true);
+	        } catch(InterruptedException v) {
+	        	
+	        }
+		
 	}
 	
 	private User getUsingThisDeviceMac() {
@@ -56,7 +75,7 @@ public class ListTvsApiCall extends AsyncTask<MainActivity, String, User> {
 			
 			// if we have found the userMac in the backed from the reponse
 			if(!currentUser.isEmpty()) {
-				currentUser.setSubscriptions(getChannels(getSubscribedChannelIds(mac)));
+				currentUser.setSubscriptions(_getChannels(getSubscribedChannelIds(mac)));
 			}			
 		} 
 		
@@ -71,19 +90,33 @@ public class ListTvsApiCall extends AsyncTask<MainActivity, String, User> {
 		return parseSubscribedChannelIds(httpGet(StalkerApi.USER_SUBSCRIPTION_URL + mac));
 	}
 	
-	private List<Tv> getChannels(String channelIds) {
+	private List<Tv> getChannels(Map<String, String> reqeustInfo) {
+		return parseTvData(httpGet(StalkerApi.API_V2_URL + "users/" + reqeustInfo.get("userId") + "/tv-channels", reqeustInfo.get("token") ));
+	}
+	
+	// deprecated
+	private List<Tv> _getChannels(String channelIds) {
 		return parseTvData(httpGet(StalkerApi.TVS_URL + channelIds));
 	}
 	
+	private String httpGet(String url) {
+		return httpGet(url, "");
+	}
 	
 	// TODO:: MAKE IT UTILITY WITTH CUSTOM HEADERS AS A HASH PARAM
-	private String httpGet(String url) {
+	private String httpGet(String url,String token) {
 		BufferedReader reader = null;
 		String response = "";
 		
         try {
         	HttpClient httpClient = new DefaultHttpClient();
             HttpGet httpGet = new HttpGet(url);
+            
+            if(token != null && !token.isEmpty()) {
+            	httpGet.addHeader("Authorization", "Bearer " + token);
+            	httpGet.addHeader("Accept", "application/json,application/json;q=0.9,image/webp,*/*;q=0.8");
+            }
+            
             HttpResponse httpResponse = httpClient.execute(httpGet);
             HttpEntity httpEntity = httpResponse.getEntity();
             if(httpEntity != null){
@@ -165,7 +198,8 @@ public class ListTvsApiCall extends AsyncTask<MainActivity, String, User> {
 		        /******* Fetch node values **********/
 		        String name = jsonChildNode.optString("name").toString();
 		        String cmd  = jsonChildNode.optString("url").toString();		      
-		        String type = jsonChildNode.optString("type").toString();
+		        //String type = jsonChildNode.optString("type").toString();
+		        String type = "";
 		        Integer number = jsonChildNode.optInt("number");
 		        Tv tv = new Tv(name, cmd, type, number);
 		        
@@ -224,7 +258,6 @@ public class ListTvsApiCall extends AsyncTask<MainActivity, String, User> {
 		}
 		
 	}
-	
 	
 	private void log(String message) {
 		Log.i("customLog", "LOG:" + message);

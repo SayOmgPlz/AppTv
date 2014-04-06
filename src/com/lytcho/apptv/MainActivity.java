@@ -3,7 +3,9 @@ package com.lytcho.apptv;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -19,6 +21,8 @@ import com.lytcho.apptv.api.ListTvsApiCall;
 import com.lytcho.apptv.models.Tv;
 
 public class MainActivity extends Activity {
+	public Map<String, String> userInfo;
+	
 	private TvAdapter arrayOfChannelsAdapter;
 	private VideoView videoView;
 	private String videoUrl;
@@ -28,6 +32,11 @@ public class MainActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		
+		Intent intent = getIntent();
+		Bundle params = intent.getBundleExtra("tokenInfo");
+		userInfo = new HashMap<String, String>();
+		userInfo.put("userId", params.getString("userId"));
+		userInfo.put("token", params.getString("token"));
 		setChannelList();
 		
 		initVideoView();

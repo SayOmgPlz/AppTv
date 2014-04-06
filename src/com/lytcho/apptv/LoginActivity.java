@@ -1,5 +1,7 @@
 package com.lytcho.apptv;
 
+import java.util.Map;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Fragment;
@@ -78,8 +80,12 @@ public class LoginActivity extends Activity {
 		}
 	}
 	
-	public void goToMainActivity() {
+	public void goToMainActivity(Map<String, String> tokenInfo) {
         Intent intent = new Intent(this, MainActivity.class);
+        Bundle params = new Bundle();
+        params.putString("token", tokenInfo.get("token"));
+        params.putString("userId", tokenInfo.get("userId"));
+        intent.putExtra("tokenInfo", params);
         startActivity(intent);
 	}
 	

@@ -9,6 +9,6 @@ public class StalkerApi {
 	public static final String USER_SUBSCRIPTION_URL = API_URL + "itv_subscription/";
 	public static final String USER_INFO_URL = API_URL + "accounts/";
 	public static final String AUTH_TOKEN_URL = BASE_URL + "auth/token";
-	public static final String API_V2_URL =  "http://v2.api.valentinaitken.com/stalker_portal";
+	public static final String API_V2_URL =  "http://v2.api.valentinaitken.com/stalker_portal/api/api_v2/";
 	
 }
