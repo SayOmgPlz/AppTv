@@ -3,6 +3,7 @@ package com.lytcho.apptv;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.MediaController;
@@ -26,26 +27,18 @@ public class VideoActivity extends Activity {
 		MediaController mediaController = new MediaController(this);
 		mediaController.setAnchorView(videoView);
 		videoView.setMediaController(mediaController);
+        videoView.setMediaController(new MediaController(this){
+            public boolean dispatchKeyEvent(KeyEvent event)
+            {
+                if (event.getKeyCode() == KeyEvent.KEYCODE_BACK) {
+                    ((Activity) getContext()).finish();
+                }
 
-        videoView.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                VideoActivity.this.finish();
-                return true;
+                return super.dispatchKeyEvent(event);
             }
         });
-	}
-
-	@Override
-	public void onStart() {
-        super.onStart();
-		playVideo();
-	}
-
-	@Override
-	public void onStop() {
-        videoView.stopPlayback();
-		super.onStop();
+        playVideo();
+        videoView.requestFocus();
 	}
 
 	public void playVideo() {

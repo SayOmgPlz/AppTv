@@ -25,7 +25,12 @@
         <activity
             android:name="com.lytcho.apptv.VideoActivity"
             android:screenOrientation="landscape"
-            android:theme="@android:style/Theme.NoTitleBar" >
+            android:theme="@android:style/Theme.NoTitleBar"
+            android:parentActivityName="com.lytcho.apptv.MainActivity" >
+            <!-- The meta-data element is needed for versions lower than 4.1 -->
+            <meta-data
+                    android:name="android.support.PARENT_ACTIVITY"
+                    android:value="com.lytcho.apptv.MainActivity" />
         </activity>
         <activity
             android:name="com.lytcho.apptv.LoginActivity"
