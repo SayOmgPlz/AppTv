@@ -42,6 +42,7 @@ public class MainActivity extends Activity {
     @Override
     public void onResume() {
         super.onResume();
+        playVideo();
         findViewById(R.id.focusedTv).getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override public void onGlobalLayout() {
                 View squareView = findViewById(R.id.focusedTv);
@@ -52,8 +53,8 @@ public class MainActivity extends Activity {
 
     @Override
     public void onStop() {
-        videoView.stopPlayback();
         super.onStop();
+        stopVideo();
     }
 
 	public void updateTvsListView(List<Tv> tvs) {
@@ -118,7 +119,7 @@ public class MainActivity extends Activity {
 	private void initVideoView() {
 		videoView = (VideoView)findViewById(R.id.focusedTv);
 		videoView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_FULLSCREEN);
-		
+
 		MediaController mediaController = new MediaController(this);
 		mediaController.setAnchorView(videoView);
 		videoView.setMediaController(mediaController);
