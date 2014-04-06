@@ -32,7 +32,23 @@ public class ListTvsApiCall extends AsyncTask<MainActivity, String, User> {
 	@Override
 	protected User doInBackground(MainActivity... params) {
 		currentActivity = params[0]; // URL to call TODO
-
+		
+		final Map<String, String> reqeustInfo = currentActivity.userInfo;
+		
+		Thread asyncPingUser = new Thread() {
+			public void run() {
+		        try {
+		    		do {
+		    			httpGet(StalkerApi.API_V2_URL + "users/" + reqeustInfo.get("userId") + "/ping", reqeustInfo.get("token") );
+		    			Thread.sleep(1000 * 120);
+		    		} while(true);
+		        } catch(InterruptedException v) {
+		        	
+		        }		
+			}
+		};
+		
+		asyncPingUser.start();
 		
 		if(true) {
 			return getViaLogin();
@@ -47,18 +63,6 @@ public class ListTvsApiCall extends AsyncTask<MainActivity, String, User> {
 		currentUser.setSubscriptions(getChannels(currentActivity.userInfo));
 	
 		return currentUser;
-	}
-	
-	private void pingUser(final Map<String, String> reqeustInfo) {
-	        try {
-	    		do {
-	    			httpGet(StalkerApi.API_V2_URL + "users/" + reqeustInfo.get("userId") + "/ping", reqeustInfo.get("token") );
-	    			Thread.sleep(1000 * 120);
-	    		} while(true);
-	        } catch(InterruptedException v) {
-	        	
-	        }
-		
 	}
 	
 	private User getUsingThisDeviceMac() {
