@@ -46,6 +46,10 @@ public class LoginApiCall extends AsyncTask<LoginActivity, String, Boolean> {
 		if(response) {
 			currentActivity.goToMainActivity();
 		} else {
+            // TODO we must make difference between several cases
+            // - Wrong username password
+            // - No internet connection
+            // - the server is down
 			currentActivity.showError();
 		}
 	}
