@@ -43,15 +43,6 @@ public class TvAdapter extends ArrayAdapter<Tv> {
             if (itemView != null) {                
                 itemView.setText(item.name);
             }
-            
-            itemView.setOnClickListener(new OnClickListener() {
-            	
-            	@Override
-            	public void onClick(View v) {
-            		activity.setVideoUrl(item.url);
-            		activity.playVideo();
-            	}
-            });
         }
 
         return view;

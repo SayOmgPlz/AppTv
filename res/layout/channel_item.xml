@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_height="match_parent"
+              android:layout_width="match_parent"
               android:orientation="horizontal">
 	<TextView 
 	    android:layout_width="fill_parent"
 	    android:layout_height="wrap_content"
 	    android:id="@+id/TV_articleItem"
-	    
-	    android:textColor="#FFF"
-	    android:textSize="28sp" >
+	    android:textSize="28sp"
+        android:textColor="@drawable/channel_item_text_selector">
 	</TextView>
 	<View 
 	    android:layout_width="fill_parent"
-	    android:layout_height="1dp"
-	    android:background="@drawable/rectangle_with_radius" >
-	    </View>
+	    android:layout_height="1dp" >
+    </View>
 </LinearLayout>

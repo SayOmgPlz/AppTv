@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewTreeObserver;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.MediaController;
 import android.widget.VideoView;
@@ -21,6 +22,7 @@ public class MainActivity extends Activity {
 	private TvAdapter arrayOfChannelsAdapter;
 	private VideoView videoView;
 	private String videoUrl;
+    private ListView channelList;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -89,14 +91,25 @@ public class MainActivity extends Activity {
 
 	private void setChannelList() {
 		arrayOfChannelsAdapter = new TvAdapter(this, R.layout.channel_item, new ArrayList<Tv>(), this);
-		
-		ListView channelList = (ListView)findViewById(R.id.listOfChannels);
-		
-		ListView listOfChannels = channelList;
-		listOfChannels.setAdapter(arrayOfChannelsAdapter);		
-		
+
+        channelList = (ListView)findViewById(R.id.listOfChannels);
+        channelList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                view.setSelected(true);
+                setVideoUrl(((Tv)channelList.getItemAtPosition(position)).url);
+                playVideo();
+            }
+        });
+        channelList.setAdapter(arrayOfChannelsAdapter);
+        channelList.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+
 		new ListTvsApiCall().execute(this);
 	}
+
+    public void selectFirst() {
+        channelList.setSelection(0);
+    }
 	
 	public void setVideoUrl(String url) {
 		videoUrl = url;

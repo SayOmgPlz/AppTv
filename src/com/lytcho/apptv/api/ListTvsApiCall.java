@@ -258,6 +258,7 @@ public class ListTvsApiCall extends AsyncTask<MainActivity, String, User> {
 			currentActivity.alert("The user does not exist in database or is not subscribed for any channel");
 		} else {
 			currentActivity.setVideoUrl(tvs.toArray(new Tv[0])[0].url);
+            currentActivity.selectFirst(); // FIXME doesn't get the visual effect
 			currentActivity.playVideo();
 		}
 		
