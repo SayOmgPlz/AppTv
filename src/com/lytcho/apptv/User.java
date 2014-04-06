@@ -5,16 +5,16 @@ import java.util.List;
 
 public class User {
 
-	private List<Tv> subscribtions;
+	private List<Tv> subscriptions;
 	private Integer accountNumber;
 	private String username;
 	
 	public User() {
-		this.subscribtions = Collections.emptyList();
+		this.subscriptions = Collections.emptyList();
 	}
 	
-	public User(List<Tv> subscribtions){
-		this.subscribtions = subscribtions;
+	public User(List<Tv> subscriptions){
+		this.subscriptions = subscriptions;
 	}
 	
 	public String getUsername() {
@@ -33,16 +33,16 @@ public class User {
 		this.accountNumber = accountNumber;
 	}
 
-	public List<Tv> getSubscribtions() {
-		return subscribtions;
+	public List<Tv> getSubscriptions() {
+		return subscriptions;
 	}
 
-	public void setSubscribtions(List<Tv> subscribtions) {
-		this.subscribtions = subscribtions;
+	public void setSubscriptions(List<Tv> subscriptions) {
+		this.subscriptions = subscriptions;
 	}
 	
 	public boolean isEmpty() {
-		return subscribtions.isEmpty() && (accountNumber == null) && (username == null);
+		return subscriptions.isEmpty() && (accountNumber == null) && (username == null);
 	}
 	
 

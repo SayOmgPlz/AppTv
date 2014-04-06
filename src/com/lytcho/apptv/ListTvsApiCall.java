@@ -54,7 +54,7 @@ class ListTvsApiCall extends AsyncTask<MainActivity, String, User> {
 			
 			// if we have found the userMac in the backed from the reponse
 			if(!currentUser.isEmpty()) {
-				currentUser.setSubscribtions(getChannels(getSubscribedChannelIds(mac)));
+				currentUser.setSubscriptions(getChannels(getSubscribedChannelIds(mac)));
 			}			
 		} 
 		
@@ -211,7 +211,7 @@ class ListTvsApiCall extends AsyncTask<MainActivity, String, User> {
 	
 	@Override
 	protected void onPostExecute(User user) {
-		List<Tv> tvs = user.getSubscribtions();
+		List<Tv> tvs = user.getSubscriptions();
 		
 		currentActivity.updateTvsListView(tvs);
 		if(tvs.isEmpty()) {
