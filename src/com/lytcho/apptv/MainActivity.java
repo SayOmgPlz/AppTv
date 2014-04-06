@@ -22,25 +22,15 @@ public class MainActivity extends Activity {
 	private TvAdapter arrayOfChannelsAdapter;
 	private VideoView videoView;
 	private String videoUrl;
-	//private User user;
-	
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		
-		//user = User();
-		
 		setChannelList();
 		
 		initVideoView();
-//		
-//		alert("Latest App Version");
-//		 	
-//		alert(new DeviceUtility(this).getMac());
-//		alert(new DeviceUtility(this).getWifiMac());
-//		alert(new DeviceUtility(this).hasWifi() ? "true" : "false");
 	}
 
     @Override

@@ -7,7 +7,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.lytcho.apptv.DeviceUtility;
+import com.lytcho.apptv.NetworkDevice;
 import com.lytcho.apptv.MainActivity;
 import com.lytcho.apptv.models.Tv;
 import com.lytcho.apptv.models.User;
@@ -43,7 +43,7 @@ public class ListTvsApiCall extends AsyncTask<MainActivity, String, User> {
 	}
 	
 	private User getUsingThisDeviceMac() {
-		DeviceUtility device = new DeviceUtility(currentActivity);
+		NetworkDevice device = new NetworkDevice(currentActivity);
 		String mac = device.getMac();
 //		currentActivity.alert(mac); // Alerts in doInBackground do not on a real device
 		

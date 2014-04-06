@@ -5,11 +5,11 @@ import android.content.pm.PackageManager;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 
-public class DeviceUtility {
+public class NetworkDevice {
 	
 	private Context context;
 	
-	public DeviceUtility(Context context) {
+	public NetworkDevice(Context context) {
 		this.context = context;
 	}
 	
