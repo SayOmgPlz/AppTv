@@ -1,12 +1,5 @@
 package com.lytcho.apptv;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Intent;
@@ -19,6 +12,8 @@ import android.widget.MediaController;
 import android.widget.VideoView;
 import com.lytcho.apptv.api.ListTvsApiCall;
 import com.lytcho.apptv.models.Tv;
+
+import java.util.*;
 
 public class MainActivity extends Activity {
 	public Map<String, String> userInfo;
