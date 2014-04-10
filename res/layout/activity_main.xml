@@ -28,15 +28,6 @@ android:orientation="vertical" android:background="#666666">
             android:id="@+id/focusedTv" >
         </VideoView>
     </LinearLayout>
-    
-    <TextView android:layout_width="fill_parent"
-    android:layout_height="wrap_content" android:text="Channel info that is"
-    android:textColor="#FFFFFF" android:padding="2dip" 
-    android:layout_weight="1" 
-    android:gravity="center"
-    android:background="@drawable/black_background"
-    android:orientation="horizontal"/>
-
 </LinearLayout>
 
 
