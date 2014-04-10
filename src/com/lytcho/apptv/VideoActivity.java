@@ -10,7 +10,7 @@ import android.view.View;
 import android.widget.MediaController;
 import android.widget.VideoView;
 
-public class VideoActivity extends Activity {
+public class VideoActivity extends Activity implements MediaPlayer.OnCompletionListener {
 	private VideoView videoView;
 	private String videoUrl;
 	
@@ -66,4 +66,9 @@ public class VideoActivity extends Activity {
             videoView.start();
 		}
 	}
+
+    @Override
+    public void onCompletion(MediaPlayer mp) {
+        finish();
+    }
 }

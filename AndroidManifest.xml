@@ -25,7 +25,8 @@
         <activity
             android:name="com.lytcho.apptv.VideoActivity"
             android:screenOrientation="landscape"
-            android:theme="@android:style/Theme.NoTitleBar"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
+            android:launchMode="singleTask"
             android:parentActivityName="com.lytcho.apptv.MainActivity" >
             <!-- The meta-data element is needed for versions lower than 4.1 -->
             <meta-data
