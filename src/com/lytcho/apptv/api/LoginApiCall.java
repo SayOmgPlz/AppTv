@@ -1,14 +1,7 @@
 package com.lytcho.apptv.api;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
+import android.os.AsyncTask;
+import android.widget.EditText;
 import com.lytcho.apptv.LoginActivity;
 import com.lytcho.apptv.R;
 import org.apache.http.HttpEntity;
@@ -23,8 +16,14 @@ import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.os.AsyncTask;
-import android.widget.EditText;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class LoginApiCall extends AsyncTask<LoginActivity, String, Map<String, String> > {
 	private LoginActivity currentActivity;

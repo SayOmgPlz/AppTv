@@ -1,29 +1,20 @@
 package com.lytcho.apptv.api;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import android.os.AsyncTask;
 import android.util.Log;
-
 import com.lytcho.apptv.MainActivity;
 import com.lytcho.apptv.NetworkDevice;
 import com.lytcho.apptv.models.Tv;
 import com.lytcho.apptv.models.User;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
+import static com.lytcho.apptv.api.StalkerApi.httpGet;
 
 public class ListTvsApiCall extends AsyncTask<MainActivity, String, User> {
 	private MainActivity currentActivity;
@@ -34,21 +25,8 @@ public class ListTvsApiCall extends AsyncTask<MainActivity, String, User> {
 		currentActivity = params[0]; // URL to call TODO
 		
 		final Map<String, String> reqeustInfo = currentActivity.userInfo;
-		
-		Thread asyncPingUser = new Thread() {
-			public void run() {
-		        try {
-		    		do {
-		    			httpGet(StalkerApi.API_V2_URL + "users/" + reqeustInfo.get("userId") + "/ping", reqeustInfo.get("token") );
-		    			Thread.sleep(1000 * 120);
-		    		} while(true);
-		        } catch(InterruptedException v) {
-		        	
-		        }		
-			}
-		};
-		
-		asyncPingUser.start();
+
+        new com.lytcho.apptv.api.Status().execute(reqeustInfo.get("userId"), reqeustInfo.get("token"));
 		
 		if(true) {
 			return getViaLogin();
@@ -101,55 +79,6 @@ public class ListTvsApiCall extends AsyncTask<MainActivity, String, User> {
 	// deprecated
 	private List<Tv> _getChannels(String channelIds) {
 		return parseTvData(httpGet(StalkerApi.TVS_URL + channelIds));
-	}
-	
-	private String httpGet(String url) {
-		return httpGet(url, "");
-	}
-	
-	// TODO:: MAKE IT UTILITY WITTH CUSTOM HEADERS AS A HASH PARAM
-	private String httpGet(String url,String token) {
-		BufferedReader reader = null;
-		String response = "";
-		
-        try {
-        	HttpClient httpClient = new DefaultHttpClient();
-            HttpGet httpGet = new HttpGet(url);
-            
-            if(token != null && !token.isEmpty()) {
-            	httpGet.addHeader("Authorization", "Bearer " + token);
-            	httpGet.addHeader("Accept", "application/json,application/json;q=0.9,image/webp,*/*;q=0.8");
-            }
-            
-            HttpResponse httpResponse = httpClient.execute(httpGet);
-            HttpEntity httpEntity = httpResponse.getEntity();
-            if(httpEntity != null){
-                InputStream inputStream = httpEntity.getContent();
-
-	            // Get the server response
-	            reader = new BufferedReader(new InputStreamReader(inputStream));
-				StringBuilder sb = new StringBuilder();
-				String line = null;
-	
-				// Read Server Response
-				while((line = reader.readLine()) != null) {
-					// Append server response in string
-					sb.append(line);
-				}
-			
-				// Append Server Response To Content String
-				response = sb.toString();
-            }
-         } catch(IOException e) { 
-        	 e.printStackTrace();
-         } finally {
-        	 try {
-				reader.close();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-        }    
-        return response;
 	}
 	
 	private String parseSubscribedChannelIds(String response) {
