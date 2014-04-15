@@ -9,5 +9,6 @@
     <string name="post_login">Log in</string>
     <string name="username">Username:</string>
     <string name="password">Password:</string>
-
+    <string name="favorite_channels">Favorite</string>
+    <string name="all_channels">All</string>
 </resources>

@@ -8,6 +8,13 @@ public class Tv {
 	public String url;
 	public String codec;
 	public Integer number;
+	public Boolean favorite;
+	
+	public Status status;
+	
+	public static enum Status {
+		CREATE_FAVOURITE, DELETE_FAVOURITE;
+	}
 
 	public Tv() {}
 	
@@ -25,6 +32,15 @@ public class Tv {
 		} else {
 			this.url = "http" + parts[1];
 			this.codec = parts[0];
+		}
+	}
+	
+	@Override
+	public boolean equals(Object o) {
+		if(!(o instanceof Tv))
+			return false;
+		else {
+			return ((Tv)o).name.equals(name);
 		}
 	}
 	

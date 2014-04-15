@@ -11,14 +11,49 @@ android:orientation="vertical" android:background="#666666">
         android:layout_height="0dip" android:layout_weight="5"
         android:background="@drawable/black_background"
         android:gravity="center" >
-
-        <ListView
-            android:id="@+id/listOfChannels"
+        
+        <LinearLayout  
             android:layout_width="0dp"
             android:layout_height="fill_parent"
             android:layout_weight="1"
-            android:orientation="horizontal" >
-        </ListView>
+            android:orientation="vertical">
+
+			    <LinearLayout android:orientation="horizontal"
+			        android:layout_width="fill_parent"
+			        android:layout_height="50dp"
+			        >
+                    <Button
+                        android:id="@+id/all_channels"
+                        android:onClick="switchChannelFilters"
+                        android:layout_weight="1"
+                        android:layout_height="fill_parent"
+                        android:layout_width="0dp"
+                        android:text="@string/all_channels"
+                        android:textSize="20sp"
+                        android:textColor="#fff">
+                        
+                    </Button>
+                    <Button
+                        
+                        android:id="@+id/favorite_channels"
+                        android:onClick="switchChannelFilters"
+                        android:layout_weight="1"
+                        android:layout_height="fill_parent"
+                        android:layout_width="0dp"
+                        android:text="@string/favorite_channels"
+                        android:textSize="20sp"
+                        android:textColor="#fff">
+                    </Button>
+			    </LinearLayout>
+
+	        <ListView
+	            android:id="@+id/listOfChannels"
+	            android:layout_width="fill_parent"
+	            android:layout_height="fill_parent"
+	            android:orientation="horizontal" >
+	        </ListView>
+
+	   </LinearLayout>
 
         <VideoView
             android:layout_height="wrap_content"
